@@ -75,7 +75,22 @@ public class Main {
 							int opcao = teclado.nextInt();
 							teclado.nextLine();//limpar linha
 							
-							if(opcao==1) {
+							if(opcao==1) { //funciona :)
+								
+								System.out.println("Informe o cpf do cadastro que você deseja atualizar o nome: ");
+								String cpf = teclado.nextLine();
+								
+								System.out.println("Informe o novo nome: ");
+								String nome = teclado.nextLine();
+								
+								Pessoa p = new Pessoa();
+								PessoaDAO pdao = new PessoaDAO();
+								
+								p.setNome(nome);
+								
+								p.setCpf(cpf);
+								
+								pdao.atualizarNome(p);
 								
 								
 								//atualizar o nome 

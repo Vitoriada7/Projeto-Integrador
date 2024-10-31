@@ -42,6 +42,21 @@ public class PessoaDAO {
 		st.executeUpdate();
 	}
 	
+	public void atualizarNome(Pessoa p) throws SQLException{
+		String query = """
+				UPDATE pessoa
+				SET nome = ?
+				WHERE cpf = ?
+	    """;
+				
+		PreparedStatement st = this.bd.prepareStatement(query);
+		
+		st.setString(1, p.getNome());
+		st.setString(2, p.getCpf());
+		
+		st.executeUpdate();		
+	}
+	
 
 	public Pessoa findbyCpf(String umCpf) throws SQLException{
 		String query = """

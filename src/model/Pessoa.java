@@ -12,7 +12,7 @@ public class Pessoa {
 	public Pessoa(String umNome, String umCpf, String data) {
 		this.nome=umNome;
 		this.cpf=umCpf;
-		this.data_nasc=data;
+		this.data_nasc = data;
 	}
 	
 	public Pessoa() { // construtor vazio propositalmente
@@ -49,8 +49,10 @@ public class Pessoa {
 		this.data_nasc=data;
 	}
 	
+
 	
 	public String toString() {
-		return "Nome: "+this.nome+" CPF:"+this.cpf+" Data de Nascimento: "+data_nasc;
+		return "Nome: "+this.nome+" CPF:"+this.cpf+" Data de Nascimento: "+ this.data_nasc;
 	}
 }
+//}

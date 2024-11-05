@@ -5,6 +5,7 @@ package persistencia;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.sql.ResultSet;
 
 import model.Pessoa;
@@ -86,7 +87,7 @@ public class PessoaDAO {
 		
 	}
 	
-	public int getIdbyCpf(String umCpf) throws SQLException{
+	public int getIdbyCpf(String umCpf) throws SQLException{ //localiza e retorna o id da pessoa
 		String query = """
 				SELECT cod_pessoa
 				FROM pessoa
@@ -110,6 +111,21 @@ public class PessoaDAO {
 		return 0;
 		
 		
+	}
+	
+	public ArrayList<Pessoa> getAll() throws SQLException {
+		ArrayList<Pessoa> lista = new ArrayList<Pessoa>();
+		String query = "SELECT nome, cpf, data_nasc FROM pessoa";
+		PreparedStatement st = this.bd.prepareStatement(query);
+		ResultSet res = st.executeQuery();
+		while (res.next()) {
+			String nome = res.getString("nome");
+			String cpf = res.getString("cpf");
+			String dataNasc = res.getString("data_nasc");
+			Pessoa p = new Pessoa(nome, cpf, dataNasc);
+			lista.add(p);
+		}
+		return lista;
 	}
 	
 }

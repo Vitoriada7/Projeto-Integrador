@@ -1,15 +1,14 @@
 //Main.java
-
+// :)
 package apresentacao;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-import model.Cartao;
 import model.Pessoa;
 import model.Passageiro;
-import persistencia.CartaoDAO;
 import persistencia.PassageiroDAO;
 import persistencia.PessoaDAO;
 
@@ -25,7 +24,7 @@ public class Main {
 				int op = teclado.nextInt();
 				teclado.nextLine();
 				
-				if(op==1) { //cadastrar usuário e criar cartão
+				if(op==1) { //  cadastrar usuário e passar a modalidade para o passageiro
 					try {
 					System.out.println("Informe o nome:");
 					String nome = teclado.nextLine();
@@ -52,7 +51,7 @@ public class Main {
 					System.out.println("5-PASSE ANTECIPADO");
 					int op2 = teclado.nextInt();
 					
-					System.out.println(ps.modalidade(op2)); //temporário, só pra testar na hora de rodar
+					System.out.println(ps.modalidade(op2)); //  temporário, só pra testar na hora de rodar
 					
 					psd.beneficio(ps);
 					
@@ -65,18 +64,30 @@ public class Main {
 				System.out.println("\nUsuário cadastrado com sucesso!");
 					
 				}else
-					if(op==2) { 
-						//listar pessoas cadastradas
+					if(op==2) { //  listar pessoas cadastradas
+						
+						PessoaDAO pd = new PessoaDAO();
+						ArrayList<Pessoa> lista = pd.getAll();
+						if (lista.size() == 0) {
+							System.out.println("\nO cadastro está vazio.");
+						} else {
+							System.out.println("\nPessoas cadastradas:");
+							for (Pessoa p: lista) {
+								System.out.println(p);
+							}
+						}
+						
 					
 					}else 
 						if(op==3) {
 							System.out.println("O que você deseja atualizar?");
 							System.out.println("1-Nome cadastrado || 2-Modalidade ");
 							int opcao = teclado.nextInt();
-							teclado.nextLine();//limpar linha
+							teclado.nextLine();  //  limpar linha
 							
-							if(opcao==1) { //funciona :)
+							if(opcao==1) { //  Atualizar nome   *funciona :)
 								
+							             	
 								System.out.println("Informe o cpf do cadastro que você deseja atualizar o nome: ");
 								String cpf = teclado.nextLine();
 								
@@ -92,10 +103,8 @@ public class Main {
 								
 								pdao.atualizarNome(p);
 								
-								
-								//atualizar o nome 
 							}else
-								if(opcao==2) {
+								if(opcao==2) {  //atualizar o nome  *esta apontando erro
 									
 									System.out.println("Informe o cpf do cadastro que você deseja atualizar a modalidade: ");
 									String cpf = teclado.nextLine();
@@ -129,11 +138,10 @@ public class Main {
 								}else 
 									System.out.println("Esta opção não está disponível!");
 					
-							//atualizar
-							//atualizar o que
 							
 						}else
-							if(op==4) { // deletar usuário
+							if(op==4) { // deletar usuário   * funciona
+								
 								System.out.println("Informe o cpf");
 								String cpf = teclado.nextLine();
 								
@@ -151,8 +159,7 @@ public class Main {
 									
 									
 								}
-				
-				//System.out.println(p);
+
 				
 				teclado.close();
 			

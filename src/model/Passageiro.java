@@ -18,8 +18,7 @@ public class Passageiro extends Pessoa {
 	}
 	
 	public String modalidade(int r) {
-		
-		LocalDate dataNascimento = LocalDate.parse(super.getData()); //para calcular a idade da pessoa
+		LocalDate dataNascimento = LocalDate.parse(getData()); //para calcular a idade da pessoa
 		LocalDate dataAtual = LocalDate.now();
 		
 		Period periodo = Period.between(dataNascimento, dataAtual);

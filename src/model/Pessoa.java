@@ -1,7 +1,4 @@
-//Pessoa.java
-
 package model;
-
 public class Pessoa {
 	
 	private String nome;
@@ -49,10 +46,8 @@ public class Pessoa {
 		this.data_nasc=data;
 	}
 	
-
 	
 	public String toString() {
 		return "Nome: "+this.nome+" CPF:"+this.cpf+" Data de Nascimento: "+ this.data_nasc;
 	}
 }
-//}

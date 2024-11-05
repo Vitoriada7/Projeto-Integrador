@@ -1,26 +1,22 @@
-//Main.java
-// :)
 package apresentacao;
-
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import model.Pessoa;
 import model.Passageiro;
 import persistencia.PassageiroDAO;
 import persistencia.PessoaDAO;
-
 public class Main {
-
 	public static void main(String[] args) throws SQLException {
 		try {
 			Scanner teclado = new Scanner(System.in);
 			
 				System.out.println("Bem-Vindo a Coleo!");
 				
-				System.out.println("1-Cadastrar | 2- Listar cadastros | 3-Atualizar | 4-Exluir | 5- Recarregar cartão ");
+				while(true) {
+				
+				System.out.println("1-Cadastrar | 2- Listar cadastros | 3-Atualizar | 4-Exluir | 5- Recarregar cartão | 6- Sair");
 				int op = teclado.nextInt();
 				teclado.nextLine();
 				
@@ -122,15 +118,11 @@ public class Main {
 									
 									Passageiro ps = new Passageiro();
 									PassageiroDAO psd = new PassageiroDAO();
-									Pessoa p = new Pessoa();
+									//Pessoa p = new Pessoa();  *o erro era aqui
 									
-									p.setData(data);
-									
-									System.out.println(p.getData());
+									ps.setData(data);
 									
 									ps.modalidade(r);
-									
-									System.out.println(p.getData());
 									
 									psd.atualizarModalidade(ps, cpf);
 									
@@ -158,8 +150,12 @@ public class Main {
 								if(op==5) {
 									
 									
-								}
-
+								}else
+									if(op==6) {
+										break;
+									}
+				
+				} //chave refernte ao while
 				
 				teclado.close();
 			
@@ -172,5 +168,4 @@ public class Main {
 		
 		
 	}
-
 }

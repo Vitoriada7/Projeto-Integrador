@@ -1,15 +1,10 @@
-//PessoaDAO.java
-
 package persistencia;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.ResultSet;
-
 import model.Pessoa;
-
 public class PessoaDAO {
 	private Connection bd;
 	
@@ -58,7 +53,6 @@ public class PessoaDAO {
 		st.executeUpdate();		
 	}
 	
-
 	public Pessoa findbyCpf(String umCpf) throws SQLException{
 		String query = """
 				SELECT cod_pessoa 
@@ -93,7 +87,6 @@ public class PessoaDAO {
 				FROM pessoa
 				WHERE cpf = ?
 				""";
-
 		PreparedStatement st = bd.prepareStatement(query);
 		st.setString(1, umCpf);
 		ResultSet res = st.executeQuery();

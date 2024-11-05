@@ -1,40 +1,29 @@
-//PassageiroDAO.java
-
 package persistencia;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import model.Cartao;
 import model.Pessoa;
 import model.Passageiro;
-
 public class PassageiroDAO {
 	private Connection bd;
 	private PessoaDAO psdao=new PessoaDAO();
-
 	
 	public PassageiroDAO() {
 		this.bd = BancoDeDados.getBd();
 	}
 	
 	public void beneficio(Passageiro ps) throws SQLException{ //passando a modalidade como varchar
-
 		String query = """
 				INSERT INTO passageiro
 				VALUES (?,?,?)
 		""";
-
 		PreparedStatement st = this.bd.prepareStatement(query);
-
 		st.setInt(1, psdao.getIdbyCpf(ps.getCpf()));
 		st.setInt(2, psdao.getIdbyCpf(ps.getCpf()));
 		st.setString(3, ps.getTipo());
-
 		st.executeUpdate();  
-
 	}
 	
 	public void atualizarModalidade(Passageiro ps, String cpf) throws SQLException{
@@ -61,7 +50,6 @@ public class PassageiroDAO {
 				FROM passageiro
 				WHERE cod_pessoa = ?
 				""";
-
 		PreparedStatement st = bd.prepareStatement(query);
 		st.setInt(1, psdao.getIdbyCpf(cpf));
 		ResultSet res = st.executeQuery();
@@ -82,6 +70,5 @@ public class PassageiroDAO {
 	}
 	
 	
-
 	
 }

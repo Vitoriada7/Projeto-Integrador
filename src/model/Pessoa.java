@@ -12,13 +12,15 @@ public class Pessoa {
 		this.data_nasc = data;
 	}
 	
-	public Pessoa() { // construtor vazio propositalmente
+	//CONSTRUTOR VAZIO PROPOSITALMENTE
+	public Pessoa() {
 		
 	}
 	
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}

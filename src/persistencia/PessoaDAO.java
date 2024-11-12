@@ -12,7 +12,8 @@ public class PessoaDAO {
 		this.bd = BancoDeDados.getBd();
 	}
 	
-	public void cadastrar(Pessoa p) throws SQLException { //  cadastrar usuário 
+	//CREATE
+	public void cadastrar(Pessoa p) throws SQLException {
 		String query = """
 				INSERT INTO pessoa
 				VALUES (null, ?, ?, ?)
@@ -25,9 +26,8 @@ public class PessoaDAO {
 		st.executeUpdate();
 	}
 	
-	
-	
-	public void deletar(Pessoa p) throws SQLException { //  deletar usuário a partir do CPF
+	//DELETE - APAGA TODOS OS RASTROS
+	public void deletar(Pessoa p) throws SQLException { 
 		String query = """
 				DELETE FROM pessoa
 				WHERE cpf = ?
@@ -38,6 +38,7 @@ public class PessoaDAO {
 		st.executeUpdate();
 	}
 	
+	//UPDATE
 	public void atualizarNome(Pessoa p) throws SQLException{
 		String query = """
 				UPDATE pessoa
@@ -49,10 +50,28 @@ public class PessoaDAO {
 		
 		st.setString(1, p.getNome());
 		st.setString(2, p.getCpf());
-		
 		st.executeUpdate();		
 	}
 	
+	//READ
+	public ArrayList<Pessoa> getAll() throws SQLException {
+		ArrayList<Pessoa> lista = new ArrayList<Pessoa>();
+		String query = "SELECT nome, cpf, data_nasc FROM pessoa";
+		
+		PreparedStatement st = this.bd.prepareStatement(query);
+		ResultSet res = st.executeQuery();
+			
+		while (res.next()) {
+			String nome = res.getString("nome");
+			String cpf = res.getString("cpf");
+			String dataNasc = res.getString("data_nasc");
+			Pessoa p = new Pessoa(nome, cpf, dataNasc);
+			lista.add(p);
+		}
+		return lista;
+	}
+	
+	//ACESSA A TABELA "PESSOA" NO BD E RETORNA O OBJETO PESSOA COMPLETO
 	public Pessoa findbyCpf(String umCpf) throws SQLException{
 		String query = """
 				SELECT cod_pessoa 
@@ -65,7 +84,7 @@ public class PessoaDAO {
 		ResultSet res = st.executeQuery();
 		
 				
-				boolean nenhum = true;
+		boolean nenhum = true;
 		while (res.next()) {
 			nenhum = false;
 			String nome = res.getString("nome");  
@@ -81,6 +100,7 @@ public class PessoaDAO {
 		
 	}
 	
+	//ACESSA A CHAVE PRIMÁRIA DA TABELA "PESSOA" NO BD E RETORNA
 	public int getIdbyCpf(String umCpf) throws SQLException{ //localiza e retorna o id da pessoa
 		String query = """
 				SELECT cod_pessoa
@@ -102,23 +122,6 @@ public class PessoaDAO {
 			System.out.println("Nenhum registro encontrado");
 		}
 		return 0;
-		
-		
-	}
-	
-	public ArrayList<Pessoa> getAll() throws SQLException {
-		ArrayList<Pessoa> lista = new ArrayList<Pessoa>();
-		String query = "SELECT nome, cpf, data_nasc FROM pessoa";
-		PreparedStatement st = this.bd.prepareStatement(query);
-		ResultSet res = st.executeQuery();
-		while (res.next()) {
-			String nome = res.getString("nome");
-			String cpf = res.getString("cpf");
-			String dataNasc = res.getString("data_nasc");
-			Pessoa p = new Pessoa(nome, cpf, dataNasc);
-			lista.add(p);
-		}
-		return lista;
 	}
 	
 }

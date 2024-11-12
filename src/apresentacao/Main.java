@@ -4,10 +4,13 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import model.Pessoa;
+import model.Cartao;
 import model.Passageiro;
+import persistencia.CartaoDAO;
 import persistencia.PassageiroDAO;
 import persistencia.PessoaDAO;
 public class Main {
+	
 	public static void main(String[] args) throws SQLException {
 		try {
 			Scanner teclado = new Scanner(System.in);
@@ -16,11 +19,11 @@ public class Main {
 				
 				while(true) {
 				
-				System.out.println("1-Cadastrar | 2- Listar cadastros | 3-Atualizar | 4-Exluir | 5- Recarregar cartão | 6- Sair");
+				System.out.println("1-Cadastrar | 2- Listar | 3-Atualizar | 4-Exluir | 5- Recarregar cartão | 6- Sair");
 				int op = teclado.nextInt();
 				teclado.nextLine();
 				
-				if(op==1) { //  cadastrar usuário e passar a modalidade para o passageiro
+				if(op==1) {
 					try {
 					System.out.println("Informe o nome:");
 					String nome = teclado.nextLine();
@@ -51,6 +54,11 @@ public class Main {
 					
 					psd.beneficio(ps);
 					
+					Cartao c = new Cartao(ps);
+					CartaoDAO cdao = new CartaoDAO();
+					
+					cdao.criarCartao(c,psd, cpf);
+					
 					
 				} catch (SQLIntegrityConstraintViolationException e) {
 					// tentativa de registro duplicado
@@ -60,7 +68,7 @@ public class Main {
 				System.out.println("\nUsuário cadastrado com sucesso!");
 					
 				}else
-					if(op==2) { //  listar pessoas cadastradas
+					if(op==2) {
 						
 						PessoaDAO pd = new PessoaDAO();
 						ArrayList<Pessoa> lista = pd.getAll();
@@ -79,10 +87,9 @@ public class Main {
 							System.out.println("O que você deseja atualizar?");
 							System.out.println("1-Nome cadastrado || 2-Modalidade ");
 							int opcao = teclado.nextInt();
-							teclado.nextLine();  //  limpar linha
+							teclado.nextLine(); 
 							
-							if(opcao==1) { //  Atualizar nome   *funciona :)
-								
+							if(opcao==1) {
 							             	
 								System.out.println("Informe o cpf do cadastro que você deseja atualizar o nome: ");
 								String cpf = teclado.nextLine();
@@ -100,7 +107,7 @@ public class Main {
 								pdao.atualizarNome(p);
 								
 							}else
-								if(opcao==2) {  //atualizar o nome  *esta apontando erro
+								if(opcao==2) {
 									
 									System.out.println("Informe o cpf do cadastro que você deseja atualizar a modalidade: ");
 									String cpf = teclado.nextLine();
@@ -118,7 +125,6 @@ public class Main {
 									
 									Passageiro ps = new Passageiro();
 									PassageiroDAO psd = new PassageiroDAO();
-									//Pessoa p = new Pessoa();  *o erro era aqui
 									
 									ps.setData(data);
 									
@@ -126,36 +132,77 @@ public class Main {
 									
 									psd.atualizarModalidade(ps, cpf);
 									
-									
 								}else 
 									System.out.println("Esta opção não está disponível!");
-					
 							
 						}else
-							if(op==4) { // deletar usuário   * funciona
+							if(op==4) {
 								
-								System.out.println("Informe o cpf");
-								String cpf = teclado.nextLine();
+								System.out.println("1-Apagar cadastro completo | 2-Apagar só o cartão");
+								int opcao = teclado.nextInt();
+								teclado.nextLine();
 								
-								PessoaDAO pd = new PessoaDAO();
+								if(opcao==1) {
+									
+									System.out.println("Informe o cpf");
+									String cpf = teclado.nextLine();
+									
+									PessoaDAO pd = new PessoaDAO();
+									
+									Pessoa p = new Pessoa();
+									
+									p.setCpf(cpf);
+									
+									pd.deletar(p);
+									
+								}else
+									if(opcao==2) {
+										
+										System.out.println("Informe o cpf");
+										String cpf = teclado.nextLine();
+										
+										CartaoDAO cd = new CartaoDAO();
+										PassageiroDAO psdao = new PassageiroDAO();
+										Passageiro p = new Passageiro();
+										Cartao c = new Cartao(p);
+										
+										cd.getIdbyPass(cpf, psdao);
+										
+										cd.deletarCartao(c, psdao, cpf);
 								
-								Pessoa p = new Pessoa();
-								
-								p.setCpf(cpf);
-								
-								pd.deletar(p);
-								
+									}
 								
 							}else 
 								if(op==5) {
 									
+									System.out.println("Qual o cpf do passageiro que você deseja recarregar o saldo?");
+									String cpf=teclado.next();
+									
+									Passageiro dono = new Passageiro();
+									Cartao c = new Cartao(dono);
+									PessoaDAO pdao = new PessoaDAO();
+									PassageiroDAO psdao = new PassageiroDAO();
+									CartaoDAO cdao = new CartaoDAO();
+									
+									System.out.println("Quantas passagens deseja?");
+									int nump=teclado.nextInt();
+									
+									c.calcularTarifa(psdao.getModalidade(cpf));
+									
+									c.recarregarSaldo(nump);
+									
+									cdao.recarregarCartao(c.getSaldo(),psdao, cpf);
+									
+									System.out.println(c.getTarifa());
+									
+									System.out.println("Saldo atual:"+cdao.getSaldobyCpf(psdao,cpf));
 									
 								}else
 									if(op==6) {
 										break;
 									}
 				
-				} //chave refernte ao while
+				} //COLCHETE REFERENTE AO WHILE
 				
 				teclado.close();
 			

@@ -1,35 +1,50 @@
 package model;
-import persistencia.CartaoDAO;
 public class Cartao{
 	
 	protected Passageiro dono;
-	protected double saldo = 0;
-	CartaoDAO cd = new CartaoDAO();
+	protected double saldo;
+	protected double tarifa;
+	
 	public Cartao(Passageiro dono){
 		this.dono = dono;
+		this.saldo = 0;
 	}
 	
-	public void calcularTarifa(String m) {
-		cd.getTarifa();
+	public double calcularTarifa(String m) {
+		
+		this.tarifa = 5;
+			
 		if(m.equals("PASSE LIVRE +60") || m.equals("PASSE LIVRE +65") || m.equals("PCD")) {
-			cd.setTarifa(0);
+			this.tarifa = this.tarifa*0;
 		}
 		else if (m.equals("ESTUDANTE")) {
-			cd.setTarifa(cd.getTarifa()*0.5);
+			this.tarifa = this.tarifa*0.5;
 		}
 		
 		else if (m.equals("PASSE ANTECIPADO")) {
-			cd.setTarifa(cd.getTarifa());
+			this.tarifa = this.tarifa*1;
 		}
 		else {
 			System.out.println("Esta modalidade não está disponível.");
 		}
+		return this.tarifa;
 	}
+	
+	public void setTarifa(double tarifa) {
+		this.tarifa = tarifa;
+	}
+	
+	public double getTarifa() {
+		return this.tarifa;
+	}
+	
 	public double recarregarSaldo(int numP) {
-		this.saldo += numP*cd.getTarifa();
+		this.saldo += numP*getTarifa();
 		return this.saldo;
 	}
+	
 	public double getSaldo() {
 		return this.saldo;
 	}
+	
 }

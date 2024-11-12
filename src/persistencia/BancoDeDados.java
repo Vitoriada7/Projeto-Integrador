@@ -1,5 +1,3 @@
-//BancoDeDados.java
-
 package persistencia;
 
 import java.sql.Connection;
@@ -16,7 +14,7 @@ public class BancoDeDados {
 				bd = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/bd_coleo",
 						"root",
-						"root"
+						"tequila"
 						);
 			} catch (SQLException e) {
 				// erro ao conectar ao bd, vamos imprimir o stack trace e encerrar
